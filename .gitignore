@@ -1,0 +1,19 @@
+# Archivos generados por .NET
+[Bb]in/
+[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Configuraciones locales
+appsettings.Development.json
+
+# Archivos de publicación
+publish/
