@@ -1,3 +1,4 @@
+using EntidadesFinancieras.Api.Mapping;
 using EntidadesFinancieras.Domain.Interfaces;
 using EntidadFinanciera.Infrastructure.Data;
 using EntidadFinanciera.Infrastructure.Repositories;
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IFinancialEntityRepository, FinancialEntityRepository>();
 builder.Services.AddScoped<IClassificationTypeRepository, ClassificationTypeRepository>();
 builder.Services.AddOpenApi();
+builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
 var app = builder.Build();
 

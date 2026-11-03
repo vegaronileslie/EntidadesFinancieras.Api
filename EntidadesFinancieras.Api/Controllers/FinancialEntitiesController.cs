@@ -1,4 +1,5 @@
-﻿using EntidadesFinancieras.Domain.DTOs;
+﻿using AutoMapper;
+using EntidadesFinancieras.Domain.DTOs;
 using EntidadesFinancieras.Domain.Entities;
 using EntidadesFinancieras.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -10,17 +11,19 @@ namespace EntidadesFinancieras.Api.Controllers
     public class FinancialEntitiesController : ControllerBase
     {
         private readonly IFinancialEntityRepository _repository;
+        private readonly IMapper _mapper;
 
-        public FinancialEntitiesController(IFinancialEntityRepository repository)
+        public FinancialEntitiesController(IFinancialEntityRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FinancialEntityDto>>> GetAllAsync(){
             
             var entities = await _repository.GetAllAsync();
-            return Ok(entities.Select(ToDto));
+            return Ok(_mapper.Map<IEnumerable<FinancialEntityDto>>(entities));
 
         }
 
@@ -29,16 +32,7 @@ namespace EntidadesFinancieras.Api.Controllers
         {
             var entity = await _repository.GetByIdAsync(id);
             if(entity is null) return NotFound();
-            return Ok(ToDto(entity));
+            return Ok(_mapper.Map<FinancialEntityDto>(entity));
         }
-
-        private static FinancialEntityDto ToDto(FinancialEntity e) => new()
-        {
-            Id = e.Id,
-            Name = e.Name,
-            Website = e.Website,
-            ClassificationTypeId = e.ClassificationTypeId,
-            ClassificationTypeName = e.ClassificationType.Name
-        };
     }
 }

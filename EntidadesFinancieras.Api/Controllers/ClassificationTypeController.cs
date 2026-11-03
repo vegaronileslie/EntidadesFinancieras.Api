@@ -1,4 +1,5 @@
-﻿using EntidadesFinancieras.Domain.DTOs;
+﻿using AutoMapper;
+using EntidadesFinancieras.Domain.DTOs;
 using EntidadesFinancieras.Domain.Entities;
 using EntidadesFinancieras.Domain.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -11,26 +12,28 @@ namespace EntidadesFinancieras.Api.Controllers
     public class ClassificationTypeController : ControllerBase
     {
         private readonly IClassificationTypeRepository _repository;
-        public ClassificationTypeController(IClassificationTypeRepository repository)
+        private readonly IMapper _mapper;
+        public ClassificationTypeController(IClassificationTypeRepository repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ClassificationType>>> GetAllAsync()
+        public async Task<ActionResult<IEnumerable<ClassificationTypeDto>>> GetAllAsync()
         {
 
             var entities = await _repository.GetAllAsync();
-            return Ok(entities);
+            return Ok(_mapper.Map<IEnumerable<ClassificationTypeDto>>(entities));
 
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ClassificationType>> GetByIdAsync(int id)
+        public async Task<ActionResult<ClassificationTypeDto>> GetByIdAsync(int id)
         {
             var entity = await _repository.GetByIdAsync(id);
             if (entity is null) return NotFound();
-            return Ok(entity);
+            return Ok(_mapper.Map<ClassificationTypeDto>(entity));
         }
     }
 }

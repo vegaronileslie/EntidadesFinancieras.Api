@@ -21,7 +21,7 @@ namespace EntidadFinanciera.Infrastructure.Repositories
         {
             return await _context.ClassificationTypes
                 .AsNoTracking()
-                .OrderBy(c => c.Name)
+                .OrderBy(c => c.Id)
                 .ToListAsync();
         }
 
